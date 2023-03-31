@@ -1,0 +1,65 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">STT</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quality</th>
+      <th scope="col">Category</th>
+      <th scope="col">Deal</th>
+      <th scope="col">Update</th>
+      <th scope="col">Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Jean 2 light</td>
+      <td>20000</td>
+      <td>10</td>
+      <td>Jean</td>
+      <td>18000</td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  const list = `{{getList}}`.split('#');
+  let listDetail = [];
+  let content = '';
+
+  for (let i = 0; i < list.length - 1; i++) {
+    let listTmp = list[i].split('^');
+    let data = {
+      _id: listTmp[0],
+      name: listTmp[1],
+      price: listTmp[2],
+      quality: listTmp[3],
+      category: listTmp[4],
+      deal: listTmp[5]
+    }
+    listDetail.push(data);
+    console.log(listDetail);
+
+    content += `<tr><th scope="row">${i + 1}</th><td>${listTmp[1]}</td><td>${listTmp[2]}</td><td>${listTmp[3]}</td><td>${listTmp[4]}</td><td>${listTmp[5]}</td><td><button type="button" class="btn btn-success btnUpdate">Update</button></td><td><button type="button" class="btn btn-danger btnDelete">Delete</button></td></tr>`;
+  }
+
+  document.querySelector('tbody').innerHTML = content;
+
+  let updates = document.querySelectorAll('.btnUpdate');
+  let deletes = document.querySelectorAll('.btnDelete');
+
+  for (let i = 0; i < updates.length; i++) {
+    updates[i].onclick = () => {
+      window.location.href = `http://localhost:3000/update_data?_id=${listDetail[i]._id}`
+    }
+  }
+
+  for (let i = 0; i < deletes.length; i++) {
+    deletes[i].onclick = () => {
+      confirm('Ban co muon tiep tuc xoa san pham khong?')
+    }
+  }
+
+
+</script>
