@@ -57,7 +57,16 @@
 
   for (let i = 0; i < deletes.length; i++) {
     deletes[i].onclick = () => {
-      confirm('Ban co muon tiep tuc xoa san pham khong?')
+      let result = confirm('Ban co muon tiep tuc xoa san pham khong?');
+      if (result) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/delete');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({ id: listDetail[i]._id }));
+        setTimeout(() => {
+          window.location.href = `http://localhost:3000/list`;
+        }, 10);
+      }
     }
   }
 

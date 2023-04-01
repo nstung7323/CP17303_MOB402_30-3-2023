@@ -3,13 +3,19 @@ const app = express();
 const hbs = require('express-handlebars');
 const path = require('path');
 const ProductModel = require('../models/Product');
+const { log } = require('console');
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
 
 app.engine('hbs', hbs.engine({ extname: '.hbs' }));
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, '../resources/views'));
 
-app.get('/update_new_data', (req, res) => {
-
+app.post('/delete',async (req, res) => {
+    const ids = req.body.id;
+    console.log(ids);
+    ProductModel.deleteOne({_id: ids})
+    .then(() => res.redirect('back'));
 })
 
 app.get('/update_data', async (req, res) => {
@@ -75,15 +81,17 @@ app.get('/list', async (req, res) => {
 })
 
 app.post('/list', async (req, res) => {
-    if (req.body._id !== undefined) {
-        ProductModel.findByIdAndUpdate(req.body._id,
-            {
-                name: req.body.name,
-                price: req.body.price,
-                quality: req.body.quality,
-                category: req.body.category,
-                deal: req.body.deal
-            })
+
+    if (req.body._id != undefined) {
+        const dataUpdate = {
+            name: req.body.name,
+            price: req.body.price,
+            quality: req.body.quality,
+            category: req.body.category,
+            deal: req.body.deal
+        }
+        ProductModel.updateOne({ _id: req.body._id }, { $set: dataUpdate })
+            .then(() => res.redirect('list'));
     }
     else {
         const product = new ProductModel(req.body);

@@ -51,6 +51,10 @@
 </div>
 
 <script>
+    let price = document.querySelector('[name="price"]');
+    let quality = document.querySelector('[name="quality"]');
+    let deal = document.querySelector('[name="deal"]');
+
     // Example starter JavaScript for disabling form submissions if there are invalid fields
     (function () {
         'use strict'
@@ -62,6 +66,24 @@
         Array.prototype.slice.call(forms)
             .forEach(function (form) {
                 form.addEventListener('submit', function (event) {
+                    if (price.value < 0) {
+                        alert('Vui long nhap gia duong');
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return;
+                    }
+                    if (quality.value < 0) {
+                        alert('Vui long nhap so luong duong');
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return;
+                    }
+                    if (deal.value < 0) {
+                        alert('Vui long nhap giam gia luong duong');
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return;
+                    }
                     if (!form.checkValidity()) {
                         event.preventDefault();
                         event.stopPropagation();
